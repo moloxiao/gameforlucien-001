@@ -27,11 +27,35 @@ const ROLE_LIST = [
     ['张苞', 163, 157, BLOOD_DEFAULT, PER_DEFAULT], // 16
 ]
 
+console.log('三国武将转V0.0.1[策划:Lucien]');
+var team1 = [];
+var TEAMIDS = [11, 12, 0];
+for(var i=0;i<TEAMIDS.length;i++) {
+    var role = {
+        name: ROLE_LIST[TEAMIDS[i]][0],
+        att: ROLE_LIST[TEAMIDS[i]][1], // 攻击
+        def: ROLE_LIST[TEAMIDS[i]][2], // 防御
+        blood: ROLE_LIST[TEAMIDS[i]][3], // 血量
+        per: ROLE_LIST[TEAMIDS[i]][4] // 暴击 
+    }
+    team1.push(role);
+}
+
+for(var i=0;i<team1.length;i++) {
+    console.log('队伍1，武将'  + i + ':' + team1[i].name);
+}
+
 var role1;
 var role2;
 
-console.log('三国武将转V0.0.1[策划:Lucien]');
-console.log('当前可选武将:' + ROLE_LIST.length);
+
+
+
+
+/**
+ * TODO 1 : 取消武将选择，手动构建武将组
+ * TODO 
+ */
 
 const readline = require('readline').createInterface({
     input: process.stdin,
