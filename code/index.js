@@ -2,7 +2,7 @@ function getRandomInt(max) {
     return Math.floor(Math.random() * max);
 }
 
-const BLOOD_DEFAULT = 400; // 默认血量
+const BLOOD_DEFAULT = 100; // 默认血量-Lucien希望设置为400，调试阶段设置为100
 const PER_DEFAULT = 20; // 默认暴击率
 const CRIT_DEFAULT = 2; // 暴击翻倍
 const CRIT_ADDITION_DEFAULT = 20; // 暴击攻击力增加
@@ -27,10 +27,10 @@ const ROLE_LIST = [
     ['张苞', 163, 157, BLOOD_DEFAULT, PER_DEFAULT], // 16
 ]
 
-console.log('三国武将转V0.0.1[策划:Lucien]');
+console.log('三国武将转V0.0.1[游戏策划:Lucien]');
 var team1 = [];
 var TEAMIDS_1 = [11, 12, 0];
-for(var i=0;i<TEAMIDS_1.length;i++) {
+for (var i = 0; i < TEAMIDS_1.length; i++) {
     var role = {
         name: ROLE_LIST[TEAMIDS_1[i]][0],
         att: ROLE_LIST[TEAMIDS_1[i]][1], // 攻击
@@ -40,13 +40,13 @@ for(var i=0;i<TEAMIDS_1.length;i++) {
     }
     team1.push(role);
 }
-for(var i=0;i<team1.length;i++) {
-    console.log('队伍1，武将'  + i + ':' + team1[i].name);
+for (var i = 1; i <= team1.length; i++) {
+    console.log('队伍1，武将顺序[' + i + ']:' + team1[i-1].name);
 }
 
 var TEAMIDS_2 = [3, 7, 8];
 var team2 = [];
-for(var i=0;i<TEAMIDS_2.length;i++) {
+for (var i = 0; i < TEAMIDS_2.length; i++) {
     var role = {
         name: ROLE_LIST[TEAMIDS_2[i]][0],
         att: ROLE_LIST[TEAMIDS_2[i]][1], // 攻击
@@ -56,75 +56,43 @@ for(var i=0;i<TEAMIDS_2.length;i++) {
     }
     team2.push(role);
 }
-for(var i=0;i<team2.length;i++) {
-    console.log('队伍2，武将'  + i + ':' + team2[i].name);
+for (var i = 1; i <= team2.length; i++) {
+    console.log('队伍2，武将顺序[' + i + ']:' + team2[i-1].name);
 }
-
-var role1;
-var role2;
-
-
-
 
 
 /**
- * TODO 1 : 取消武将选择，手动构建武将组
- * TODO 
+ * [TASK1][OK] 1 : 取消武将选择，手动构建武将组
+ * [TASK2][OK] 2 :  建立战斗准备
+ * [TASK3][OK] 3 : 拆分doBattle函数，支持传入战斗组对象
+ * [TASK3][TODO] 4 : 支持持续战斗直至无剩余人员
  */
 
 const readline = require('readline').createInterface({
     input: process.stdin,
     output: process.stdout
 });
-readline.question(`请选择角色1的ID[0~15]?`, id => {
-    for (var i = 0; i < ROLE_LIST.length; i++) {
-        if (id + '' === i + '') {
-            role1 = {
-                name: ROLE_LIST[i][0],
-                att: ROLE_LIST[i][1], // 攻击
-                def: ROLE_LIST[i][2], // 防御
-                blood: ROLE_LIST[i][3], // 血量
-                per: ROLE_LIST[i][4] // 暴击 
-            }
-            break;
-        }
 
+
+console.log('=====战斗准备完毕=====');
+readline.question(`开始战斗[点击回车开始，输入0取消]?`, answer => {
+    if (answer !== '0') {
+        doBattle(team1, team2, 1, 0, 0);
+    } else {
+        console.log('Bye bye....');
+        readline.close()
     }
-    console.log(`您选则 ${role1.name}!`)
-    readline.question(`请选择角色2的ID[0~1]?`, id => {
-        for (var i = 0; i < ROLE_LIST.length; i++) {
-            if (id + '' === i + '') {
-                role2 = {
-                    name: ROLE_LIST[i][0],
-                    att: ROLE_LIST[i][1], // 攻击
-                    def: ROLE_LIST[i][2], // 防御
-                    blood: ROLE_LIST[i][3], // 血量
-                    per: ROLE_LIST[i][4] // 暴击 
-                }
-                break;
-            }
-
-        }
-        console.log(`您选则 ${role2.name}!`);
-        console.log('=====战斗准备完毕=====');
-        console.log('' + role1.name + '对战' + role2.name);
-        readline.question(`开始战斗[点击回车开始，输入0取消]?`, answer => {
-            if (answer !== '0') {
-                doBattle(role1, role2, 1);
-            } else {
-                console.log('Bye bye....');
-                readline.close()
-            }
-
-
-        });
-    });
 
 
 })
 
-
-function doBattle(role1, role2, round) {
+//  
+function doBattle(team1, team2, round, t1Pos, t2Pos) {
+    var role1 = team1[t1Pos];
+    var role2 = team2[t2Pos];
+    if(round === 1) {
+        console.log(role1 + 'VS' + role2);
+    }
     console.log('==========第' + round + '开始==========');
     var whoIsFirst = getRandomInt(2);
     var firstRole;
@@ -181,19 +149,20 @@ function doBattle(role1, role2, round) {
             + firstRole.name + '剩余血量:' + firstRole.blood);
         if (firstRole.blood <= 0) {
             someOneOver = true;
-            console.log('=====战斗结束，' + secondRole.name + '胜利！！=====');
+            console.log('=====本次对决战斗结束，' + secondRole.name + '胜利！！=====');
         }
 
     }
 
     if (someOneOver) {
+        // TODO : 进一步判断是否还有剩余人员，有的话启动剩余人员继续战斗
         readline.close();
     } else {
 
         readline.question(`=====第${round}战斗结束，不分胜负。[点击回车继续，输入0取消]?=====`, answer => {
             if (answer !== '0') {
                 round++;
-                doBattle(role1, role2, round);
+                doBattle(team1, team2, round, t1Pos, t2Pos);
             } else {
                 console.log('Bye bye....');
                 readline.close()
