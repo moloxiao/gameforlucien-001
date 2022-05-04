@@ -32,6 +32,7 @@ var team1 = [];
 var TEAMIDS_1 = [11, 12, 0];
 for (var i = 0; i < TEAMIDS_1.length; i++) {
     var role = {
+        teamId : 'A',
         name: ROLE_LIST[TEAMIDS_1[i]][0],
         att: ROLE_LIST[TEAMIDS_1[i]][1], // 攻击
         def: ROLE_LIST[TEAMIDS_1[i]][2], // 防御
@@ -48,6 +49,7 @@ var TEAMIDS_2 = [3, 7, 8];
 var team2 = [];
 for (var i = 0; i < TEAMIDS_2.length; i++) {
     var role = {
+        teamId : 'B',
         name: ROLE_LIST[TEAMIDS_2[i]][0],
         att: ROLE_LIST[TEAMIDS_2[i]][1], // 攻击
         def: ROLE_LIST[TEAMIDS_2[i]][2], // 防御
@@ -90,10 +92,11 @@ readline.question(`开始战斗[点击回车开始，输入0取消]?`, answer =>
 function doBattle(team1, team2, round, t1Pos, t2Pos) {
     var role1 = team1[t1Pos];
     var role2 = team2[t2Pos];
+    var winTeamId = 'NA';
     if(round === 1) {
-        console.log(role1 + 'VS' + role2);
+        console.log(role1.name + 'VS' + role2.name);
     }
-    console.log('==========第' + round + '开始==========');
+    console.log('==========第' + round + '轮开始==========');
     var whoIsFirst = getRandomInt(2);
     var firstRole;
     var secondRole;
@@ -127,6 +130,7 @@ function doBattle(team1, team2, round, t1Pos, t2Pos) {
         + secondRole.name + '剩余血量:' + secondRole.blood);
     if (secondRole.blood <= 0) {
         someOneOver = true;
+        winTeamId = firstRole.teamId;
         console.log('战斗结束，' + firstRole.name + '胜利！！');
     }
 
@@ -149,17 +153,36 @@ function doBattle(team1, team2, round, t1Pos, t2Pos) {
             + firstRole.name + '剩余血量:' + firstRole.blood);
         if (firstRole.blood <= 0) {
             someOneOver = true;
+            winTeamId = secondRole.teamId;
             console.log('=====本次对决战斗结束，' + secondRole.name + '胜利！！=====');
         }
 
     }
 
     if (someOneOver) {
-        // TODO : 进一步判断是否还有剩余人员，有的话启动剩余人员继续战斗
-        readline.close();
+        // 进一步判断是否还有剩余人员，有的话启动剩余人员继续战斗
+        if(winTeamId === 'A') { // team1胜利
+            if(t2Pos < team2.length-1) { // 不是最后一个战斗人员
+                t2Pos++;
+                doBattle(team1, team2, 1, t1Pos, t2Pos);
+            }else {
+                console.log('战斗结束，队伍1胜利');
+                readline.close();
+            }
+        }else if(winTeamId === 'B') { // team2胜利
+            if(t1Pos < team1.length-1) { // 不是最后一个战斗人员
+                t1Pos++;
+                doBattle(team1, team2, 1, t1Pos, t2Pos);
+            }else {
+                console.log('战斗结束，队伍2胜利');
+                readline.close();
+            }
+        }
+
+        
     } else {
 
-        readline.question(`=====第${round}战斗结束，不分胜负。[点击回车继续，输入0取消]?=====`, answer => {
+        readline.question(`=====第${round}轮战斗结束，不分胜负。[点击回车继续，输入0取消]?=====`, answer => {
             if (answer !== '0') {
                 round++;
                 doBattle(team1, team2, round, t1Pos, t2Pos);
