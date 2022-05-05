@@ -8,28 +8,28 @@ const CRIT_DEFAULT = 2; // 暴击翻倍
 const CRIT_ADDITION_DEFAULT = 20; // 暴击攻击力增加
 
 const ROLE_LIST = [
-    ['赵云', 200, 190, BLOOD_DEFAULT, PER_DEFAULT], // 1
-    ['魏延', 186, 190, BLOOD_DEFAULT, PER_DEFAULT], // 2 - TODO
-    ['黄忠', 196, 182, BLOOD_DEFAULT, PER_DEFAULT], // 3
-    ['典韦', 199, 182, BLOOD_DEFAULT, PER_DEFAULT], // 4
-    ['甘宁', 198, 180, BLOOD_DEFAULT, PER_DEFAULT], // 5
-    ['关平', 166, 159, BLOOD_DEFAULT, PER_DEFAULT], // 6
+    ['赵云', 200, 190, BLOOD_DEFAULT, PER_DEFAULT], // 0
+    ['魏延', 186, 190, BLOOD_DEFAULT, PER_DEFAULT], // 1 
+    ['黄忠', 196, 182, BLOOD_DEFAULT, PER_DEFAULT], // 2
+    ['典韦', 199, 182, BLOOD_DEFAULT, PER_DEFAULT], // 3
+    ['甘宁', 198, 180, BLOOD_DEFAULT, PER_DEFAULT], // 4
+    ['关平', 166, 159, BLOOD_DEFAULT, PER_DEFAULT], // 5
 
-    ['吕布', 200, 200, BLOOD_DEFAULT, PER_DEFAULT], // 7
-    ['许褚', 195, 187, BLOOD_DEFAULT, PER_DEFAULT], // 8
-    ['夏侯惇', 193, 189, BLOOD_DEFAULT, PER_DEFAULT], // 9
-    ['周瑜', 179, 161, BLOOD_DEFAULT, PER_DEFAULT], // 10
-    ['马超', 199, 187, BLOOD_DEFAULT, PER_DEFAULT], // 11
-    ['关羽', 197, 191, BLOOD_DEFAULT, PER_DEFAULT], // 12
-    ['张飞', 196, 189, BLOOD_DEFAULT, PER_DEFAULT], // 13
-    ['李典', 176, 144, BLOOD_DEFAULT, PER_DEFAULT], // 14
-    ['关兴', 164, 156, BLOOD_DEFAULT, PER_DEFAULT], // 15
-    ['张苞', 163, 157, BLOOD_DEFAULT, PER_DEFAULT], // 16
+    ['吕布', 200, 200, BLOOD_DEFAULT, PER_DEFAULT], // 6
+    ['许褚', 195, 187, BLOOD_DEFAULT, PER_DEFAULT], // 7
+    ['夏侯惇', 193, 189, BLOOD_DEFAULT, PER_DEFAULT], // 8
+    ['周瑜', 179, 161, BLOOD_DEFAULT, PER_DEFAULT], // 9
+    ['马超', 199, 187, BLOOD_DEFAULT, PER_DEFAULT], // 10
+    ['关羽', 197, 191, BLOOD_DEFAULT, PER_DEFAULT], // 11
+    ['张飞', 196, 189, BLOOD_DEFAULT, PER_DEFAULT], // 12
+    ['李典', 176, 144, BLOOD_DEFAULT, PER_DEFAULT], // 13
+    ['关兴', 164, 156, BLOOD_DEFAULT, PER_DEFAULT], // 14
+    ['张苞', 163, 157, BLOOD_DEFAULT, PER_DEFAULT], // 15
 ]
 
 console.log('三国武将转V0.0.1[游戏策划:Lucien]');
 var team1 = [];
-var TEAMIDS_1 = [11, 12, 0];
+var TEAMIDS_1 = [0, 11, 8];
 for (var i = 0; i < TEAMIDS_1.length; i++) {
     var role = {
         teamId : 'A',
@@ -45,7 +45,7 @@ for (var i = 1; i <= team1.length; i++) {
     console.log('队伍1，武将顺序[' + i + ']:' + team1[i-1].name);
 }
 
-var TEAMIDS_2 = [3, 7, 8];
+var TEAMIDS_2 = [10, 3, 4];
 var team2 = [];
 for (var i = 0; i < TEAMIDS_2.length; i++) {
     var role = {
