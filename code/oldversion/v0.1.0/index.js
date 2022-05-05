@@ -8,23 +8,59 @@ const CRIT_DEFAULT = 2; // 暴击翻倍
 const CRIT_ADDITION_DEFAULT = 20; // 暴击攻击力增加
 
 const ROLE_LIST = [
-    ['赵云', 200, 190, BLOOD_DEFAULT, PER_DEFAULT], // 1
-    ['魏延', 186, 190, BLOOD_DEFAULT, PER_DEFAULT], // 2 - TODO
-    ['黄忠', 196, 182, BLOOD_DEFAULT, PER_DEFAULT], // 3
-    ['典韦', 199, 182, BLOOD_DEFAULT, PER_DEFAULT], // 4
-    ['甘宁', 198, 180, BLOOD_DEFAULT, PER_DEFAULT], // 5
-    ['关平', 166, 159, BLOOD_DEFAULT, PER_DEFAULT], // 6
+    ['赵云', 200, 190, BLOOD_DEFAULT, PER_DEFAULT], // 0
+    ['魏延', 186, 190, BLOOD_DEFAULT, PER_DEFAULT], // 1 
+    ['黄忠', 196, 182, BLOOD_DEFAULT, PER_DEFAULT], // 2
+    ['典韦', 199, 182, BLOOD_DEFAULT, PER_DEFAULT], // 3
+    ['甘宁', 198, 180, BLOOD_DEFAULT, PER_DEFAULT], // 4
+    ['关平', 166, 159, BLOOD_DEFAULT, PER_DEFAULT], // 5
 
-    ['吕布', 200, 200, BLOOD_DEFAULT, PER_DEFAULT], // 7
-    ['许褚', 195, 187, BLOOD_DEFAULT, PER_DEFAULT], // 8
-    ['夏侯惇', 193, 189, BLOOD_DEFAULT, PER_DEFAULT], // 9
-    ['周瑜', 179, 161, BLOOD_DEFAULT, PER_DEFAULT], // 10
-    ['马超', 199, 187, BLOOD_DEFAULT, PER_DEFAULT], // 11
-    ['关羽', 197, 191, BLOOD_DEFAULT, PER_DEFAULT], // 12
-    ['张飞', 196, 189, BLOOD_DEFAULT, PER_DEFAULT], // 13
-    ['李典', 176, 144, BLOOD_DEFAULT, PER_DEFAULT], // 14
-    ['关兴', 164, 156, BLOOD_DEFAULT, PER_DEFAULT], // 15
-    ['张苞', 163, 157, BLOOD_DEFAULT, PER_DEFAULT], // 16
+    ['吕布', 200, 200, BLOOD_DEFAULT, PER_DEFAULT], // 6
+    ['许褚', 195, 187, BLOOD_DEFAULT, PER_DEFAULT], // 7
+    ['夏侯惇', 193, 189, BLOOD_DEFAULT, PER_DEFAULT], // 8
+    ['周瑜', 179, 161, BLOOD_DEFAULT, PER_DEFAULT], // 9
+    ['马超', 199, 187, BLOOD_DEFAULT, PER_DEFAULT], // 10
+    ['关羽', 197, 191, BLOOD_DEFAULT, PER_DEFAULT], // 11
+    ['张飞', 196, 189, BLOOD_DEFAULT, PER_DEFAULT], // 12
+    ['李典', 176, 144, BLOOD_DEFAULT, PER_DEFAULT], // 13
+    ['关兴', 164, 156, BLOOD_DEFAULT, PER_DEFAULT], // 14
+    ['张苞', 163, 157, BLOOD_DEFAULT, PER_DEFAULT], // 15
+    ['山贼', 80, 80, BLOOD_DEFAULT*0.5, 0], // 16
+    ['张宝', 144, 128, BLOOD_DEFAULT, PER_DEFAULT], // 17
+    ['张角', 178, 168, BLOOD_DEFAULT, PER_DEFAULT], // 18
+]
+
+const LEVEL_LIST = [
+    {
+        name : '黄巾之乱',
+        action : [
+            {
+                per : 100,
+                title : '山贼出现',
+                roleList : [
+                    {id : 16},
+                    {id : 16}
+                ]
+            }, {
+                per : 100,
+                title : '张宝出现',
+                roleList : [
+                    {id : 17},
+                    {id : 16},
+                    {id : 16}
+                ]
+            }, {
+                per : 100,
+                title : '张角出现',
+                roleList : [
+                    {id : 18},
+                    {id : 17},
+                    {id : 16},
+                    {id : 16}
+                ]
+            }
+        ]
+    }
 ]
 
 console.log('三国武将转V0.0.1[游戏策划:Lucien]');
@@ -64,10 +100,11 @@ for (var i = 1; i <= team2.length; i++) {
 
 
 /**
- * [TASK1][OK] 1 : 取消武将选择，手动构建武将组
- * [TASK2][OK] 2 :  建立战斗准备
- * [TASK3][OK] 3 : 拆分doBattle函数，支持传入战斗组对象
- * [TASK3][TODO] 4 : 支持持续战斗直至无剩余人员
+ * 基础关卡
+ * [TASK1][TODO] 1 : 构建关卡配置数据结构
+ * [TASK2][TODO] 2 : 循环读取关卡
+ * [TASK3][TODO] 3 : 
+ * [TASK3][TODO] 4 : 
  */
 
 const readline = require('readline').createInterface({
