@@ -30,43 +30,6 @@ const ROLE_LIST = [
     ['张角', 194, 168, BLOOD_DEFAULT*5, PER_DEFAULT], // 18
 ]
 
-const LEVEL_LIST = [
-    {
-        name: '黄巾之乱',
-        action: [
-            {
-                per: 100,
-                title: '山贼出现',
-                roleList: [
-                    { id: 16 },
-                    { id: 16 },
-                    { id: 16 }
-                ]
-            }, {
-                per: 100,
-                title: '张宝出现',
-                roleList: [
-                    { id: 16 },
-                    { id: 16 },
-                    { id: 16 },
-                    { id: 17 }
-                ]
-            }, {
-                per: 100,
-                title: '张角出现',
-                roleList: [
-                    { id: 16 },
-                    { id: 16 },
-                    { id: 16 },
-                    { id: 17 },
-                    { id: 18 }
-                    
-                ]
-            }
-        ]
-    }
-]
-
 console.log('三国武将转V0.0.1[游戏策划:Lucien]');
 var team1 = [];
 var TEAMIDS_1 = [11, 12, 0];
@@ -94,7 +57,7 @@ const readline = require('readline').createInterface({
 
 console.log('=====战斗准备完毕=====');
 
-var level = LEVEL_LIST[0];
+var level = require('./config/level1.json');
 level.pos = 0; // 初始化位置
 console.log('=====欢迎来到第一关:' + level.name + '=====');
 
