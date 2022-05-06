@@ -25,38 +25,42 @@ const ROLE_LIST = [
     ['李典', 176, 144, BLOOD_DEFAULT, PER_DEFAULT], // 13
     ['关兴', 164, 156, BLOOD_DEFAULT, PER_DEFAULT], // 14
     ['张苞', 163, 157, BLOOD_DEFAULT, PER_DEFAULT], // 15
-    ['山贼', 80, 80, BLOOD_DEFAULT*0.5, 0], // 16
-    ['张宝', 144, 128, BLOOD_DEFAULT, PER_DEFAULT], // 17
-    ['张角', 178, 168, BLOOD_DEFAULT, PER_DEFAULT], // 18
+    ['山贼', 80, 110, BLOOD_DEFAULT, PER_DEFAULT], // 16
+    ['张宝', 188, 148, BLOOD_DEFAULT*3, PER_DEFAULT], // 17
+    ['张角', 194, 168, BLOOD_DEFAULT*5, PER_DEFAULT], // 18
 ]
 
 const LEVEL_LIST = [
     {
-        name : '黄巾之乱',
-        action : [
+        name: '黄巾之乱',
+        action: [
             {
-                per : 100,
-                title : '山贼出现',
-                roleList : [
-                    {id : 16},
-                    {id : 16}
+                per: 100,
+                title: '山贼出现',
+                roleList: [
+                    { id: 16 },
+                    { id: 16 },
+                    { id: 16 }
                 ]
             }, {
-                per : 100,
-                title : '张宝出现',
-                roleList : [
-                    {id : 17},
-                    {id : 16},
-                    {id : 16}
+                per: 100,
+                title: '张宝出现',
+                roleList: [
+                    { id: 16 },
+                    { id: 16 },
+                    { id: 16 },
+                    { id: 17 }
                 ]
             }, {
-                per : 100,
-                title : '张角出现',
-                roleList : [
-                    {id : 18},
-                    {id : 17},
-                    {id : 16},
-                    {id : 16}
+                per: 100,
+                title: '张角出现',
+                roleList: [
+                    { id: 16 },
+                    { id: 16 },
+                    { id: 16 },
+                    { id: 17 },
+                    { id: 18 }
+                    
                 ]
             }
         ]
@@ -68,7 +72,7 @@ var team1 = [];
 var TEAMIDS_1 = [11, 12, 0];
 for (var i = 0; i < TEAMIDS_1.length; i++) {
     var role = {
-        teamId : 'A',
+        teamId: 'A',
         name: ROLE_LIST[TEAMIDS_1[i]][0],
         att: ROLE_LIST[TEAMIDS_1[i]][1], // 攻击
         def: ROLE_LIST[TEAMIDS_1[i]][2], // 防御
@@ -78,17 +82,9 @@ for (var i = 0; i < TEAMIDS_1.length; i++) {
     team1.push(role);
 }
 for (var i = 1; i <= team1.length; i++) {
-    console.log('队伍出场，武将顺序[' + i + ']:' + team1[i-1].name);
+    console.log('队伍出场，武将顺序[' + i + ']:' + team1[i - 1].name);
 }
 
-
-/**
- * 基础关卡
- * [TASK1][OK] 1 : 构建关卡配置数据结构
- * [TASK2][TODO] 2 : 更新出场队伍
- * [TASK3][TODO] 3 : 循环读取关卡-要在battle外面增加一层
- * [TASK3][TODO] 4 : 
- */
 
 const readline = require('readline').createInterface({
     input: process.stdin,
@@ -97,28 +93,53 @@ const readline = require('readline').createInterface({
 
 
 console.log('=====战斗准备完毕=====');
+
 var level = LEVEL_LIST[0];
-console.log('=====欢迎来到第一关' + level.name + '=====');
+level.pos = 0; // 初始化位置
+console.log('=====欢迎来到第一关:' + level.name + '=====');
+
 readline.question(`进入关卡，开始战斗[点击回车开始，输入0取消]?`, answer => {
     if (answer !== '0') {
-        doBattle(team1, team2, 1, 0, 0);
+        doAction(team1, level, 0);
     } else {
         console.log('Bye bye....');
         readline.close()
     }
-
-
 })
 
+function doAction(team, level) {
+    var pos = level.pos + 1;
+    console.log('*****=====第1关第' + pos + '个战斗:' + level.action[level.pos].title + '。=====*****');
+    var team2 = [];
+    for (var i = 0; i < level.action[level.pos].roleList.length; i++) {
+        var roleId = level.action[level.pos].roleList[i].id;
+        var role = {
+            teamId: 'B',
+            name: ROLE_LIST[roleId][0],
+            att: ROLE_LIST[roleId][1], // 攻击
+            def: ROLE_LIST[roleId][2], // 防御
+            blood: ROLE_LIST[roleId][3], // 血量
+            per: ROLE_LIST[roleId][4] // 暴击 
+        }
+        team2.push(role);
+    }
+    for (var i = 1; i <= team2.length; i++) {
+        console.log('对方队伍出场，武将顺序[' + i + ']:' + team2[i - 1].name);
+    }
+    doBattle(team, team2, 1, 0, 0, level);
+
+    
+}
+
 //  
-function doBattle(team1, team2, round, t1Pos, t2Pos) {
+function doBattle(team1, team2, round, t1Pos, t2Pos, level) {
     var role1 = team1[t1Pos];
     var role2 = team2[t2Pos];
     var winTeamId = 'NA';
-    if(round === 1) {
+    if (round === 1) {
         console.log(role1.name + 'VS' + role2.name);
     }
-    console.log('==========第' + round + '轮开始==========');
+    console.log('==第' + round + '轮开始==');
     var whoIsFirst = getRandomInt(2);
     var firstRole;
     var secondRole;
@@ -140,12 +161,12 @@ function doBattle(team1, team2, round, t1Pos, t2Pos) {
     var doubleStr = '';
     if (double) {
         var beKill = CRIT_DEFAULT * (firstRole.att + CRIT_ADDITION_DEFAULT - secondRole.def + 5);
-        beKill = beKill > 0 ? beKill : 0;
+        beKill = beKill >= 5 ? beKill : 5;
         secondRole.blood = secondRole.blood - beKill;
         doubleStr = '[暴击' + CRIT_DEFAULT + '倍,攻击力增加' + CRIT_ADDITION_DEFAULT + ']';
     } else {
         var beKill = (firstRole.att - secondRole.def + 5);
-        beKill = beKill > 0 ? beKill : 0;
+        beKill = beKill >= 5 ? beKill : 5;
         secondRole.blood = secondRole.blood - beKill;
     }
     console.log(doubleStr + '第' + round + '轮，' + firstRole.name + '攻击.本次攻击伤害：' + beKill + '。'
@@ -153,7 +174,7 @@ function doBattle(team1, team2, round, t1Pos, t2Pos) {
     if (secondRole.blood <= 0) {
         someOneOver = true;
         winTeamId = firstRole.teamId;
-        console.log('战斗结束，' + firstRole.name + '胜利！！');
+        console.log('本次单挑结束，' + firstRole.name + '胜利！！');
     }
 
     if (!someOneOver) { // 第二个角色攻击
@@ -163,12 +184,12 @@ function doBattle(team1, team2, round, t1Pos, t2Pos) {
         var doubleStr = '';
         if (double) {
             var beKill = CRIT_DEFAULT * (secondRole.att + CRIT_ADDITION_DEFAULT - firstRole.def + 5);
-            beKill = beKill > 0 ? beKill : 0;
+            beKill = beKill >= 5 ? beKill : 5;
             firstRole.blood = firstRole.blood - beKill;
             doubleStr = '[暴击' + CRIT_DEFAULT + '倍,攻击力增加' + CRIT_ADDITION_DEFAULT + ']';
         } else {
             var beKill = (secondRole.att - firstRole.def + 5);
-            beKill = beKill > 0 ? beKill : 0;
+            beKill = beKill >= 5 ? beKill : 5;
             firstRole.blood = firstRole.blood - beKill;
         }
         console.log(doubleStr + '第' + round + '轮，' + secondRole.name + '攻击.本次攻击伤害：' + beKill + '。'
@@ -176,41 +197,45 @@ function doBattle(team1, team2, round, t1Pos, t2Pos) {
         if (firstRole.blood <= 0) {
             someOneOver = true;
             winTeamId = secondRole.teamId;
-            console.log('=====本次对决战斗结束，' + secondRole.name + '胜利！！=====');
+            console.log('==本次战斗结束，' + secondRole.name + '胜利！！==');
         }
 
     }
 
     if (someOneOver) {
         // 进一步判断是否还有剩余人员，有的话启动剩余人员继续战斗
-        if(winTeamId === 'A') { // team1胜利
-            if(t2Pos < team2.length-1) { // 不是最后一个战斗人员
+        if (winTeamId === 'A') { // team1胜利
+            if (t2Pos < team2.length - 1) { // 不是最后一个战斗人员
                 t2Pos++;
-                doBattle(team1, team2, 1, t1Pos, t2Pos);
-            }else {
-                console.log('战斗结束，队伍1胜利');
-                readline.close();
+                doBattle(team1, team2, 1, t1Pos, t2Pos, level);
+            } else {
+                console.log('战斗结束，胜利!');
+                level.winTag = 'A';
+                dodo(team1, team2, 1, t1Pos, t2Pos, level)
             }
-        }else if(winTeamId === 'B') { // team2胜利
-            if(t1Pos < team1.length-1) { // 不是最后一个战斗人员
+        } else if (winTeamId === 'B') { // team2胜利
+            if (t1Pos < team1.length - 1) { // 不是最后一个战斗人员
                 t1Pos++;
-                doBattle(team1, team2, 1, t1Pos, t2Pos);
-            }else {
-                console.log('战斗结束，队伍2胜利');
-                readline.close();
+                doBattle(team1, team2, 1, t1Pos, t2Pos, level);
+            } else {
+                console.log('战斗结束，失败!');
+                level.winTag = 'B';
+                dodo(team1, team2, 1, t1Pos, t2Pos, level);
             }
         }
 
+        // 判断战斗是否继续
         
+
+
     } else {
 
-        readline.question(`=====第${round}轮战斗结束，不分胜负。[点击回车继续，输入0取消]?=====`, answer => {
+        readline.question(`==第${round}轮战斗结束，不分胜负。[点击回车继续，输入0取消]?==`, answer => {
             if (answer !== '0') {
                 round++;
-                doBattle(team1, team2, round, t1Pos, t2Pos);
+                doBattle(team1, team2, round, t1Pos, t2Pos, level);
             } else {
                 console.log('Bye bye....');
-                readline.close()
             }
 
 
@@ -218,4 +243,29 @@ function doBattle(team1, team2, round, t1Pos, t2Pos) {
     }
 
 
+}
+
+function dodo(team1, team2, round, t1Pos, t2Pos, level) {
+    if (level.winTag === 'A') {
+        var pos = level.pos + 1;
+        if(pos < level.action.length) {
+            readline.question(`=====第${pos}个战斗结束。。[点击回车继续，输入0取消]?=====`, answer => {
+                if (answer !== '0') {
+                    level.pos++;
+                    doAction(team1, level)
+                } else {
+                    console.log('Bye bye....');
+                }
+    
+    
+            });
+        }else {
+            console.log('!!!!!!!!!!恭喜您！通关了!!!!!!!!!!');
+            readline.close();
+        }
+        
+    } else {
+        console.log('打不过GG了....');
+        readline.close();
+    }
 }
