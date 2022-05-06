@@ -1,6 +1,10 @@
 # gameforlucien-001
 Lucien的游戏编程记录。这是第一个游戏，暂时叫三国英雄传。
 
+运行:node index.js
+要求环境:任意版本node均可。实际上基本是纯javascript代码。
+
+
 ### 当前开发计划
 功能要点：  
 * 支持从csv文件读取武将资料和配置文件
