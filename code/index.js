@@ -27,12 +27,15 @@ const ROLE_LIST = [
     ['张苞', 163, 157, BLOOD_DEFAULT, PER_DEFAULT], // 15
     ['山贼', 80, 110, BLOOD_DEFAULT, PER_DEFAULT], // 16
     ['张宝', 188, 148, BLOOD_DEFAULT*3, PER_DEFAULT], // 17
-    ['张角', 194, 168, BLOOD_DEFAULT*5, PER_DEFAULT], // 18
+    ['张角', 194, 168, BLOOD_DEFAULT*5, PER_DEFAULT*2], // 18
 ]
 
 console.log('三国武将转V0.0.1[游戏策划:Lucien]');
 var team1 = [];
-var TEAMIDS_1 = [11, 12, 0];
+var TEAMIDS_1 = [];
+for(var i=0;i<=15;i++) {
+    TEAMIDS_1.push(i);
+}
 for (var i = 0; i < TEAMIDS_1.length; i++) {
     var role = {
         teamId: 'A',
@@ -124,7 +127,7 @@ function doBattle(team1, team2, round, t1Pos, t2Pos, level) {
     var doubleStr = '';
     if (double) {
         var beKill = CRIT_DEFAULT * (firstRole.att + CRIT_ADDITION_DEFAULT - secondRole.def + 5);
-        beKill = beKill >= 5 ? beKill : 5;
+        beKill = beKill >= 10 ? beKill : 10;
         secondRole.blood = secondRole.blood - beKill;
         doubleStr = '[暴击' + CRIT_DEFAULT + '倍,攻击力增加' + CRIT_ADDITION_DEFAULT + ']';
     } else {
@@ -147,7 +150,7 @@ function doBattle(team1, team2, round, t1Pos, t2Pos, level) {
         var doubleStr = '';
         if (double) {
             var beKill = CRIT_DEFAULT * (secondRole.att + CRIT_ADDITION_DEFAULT - firstRole.def + 5);
-            beKill = beKill >= 5 ? beKill : 5;
+            beKill = beKill >= 10 ? beKill : 10;
             firstRole.blood = firstRole.blood - beKill;
             doubleStr = '[暴击' + CRIT_DEFAULT + '倍,攻击力增加' + CRIT_ADDITION_DEFAULT + ']';
         } else {
